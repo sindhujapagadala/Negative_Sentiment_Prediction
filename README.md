@@ -11,11 +11,6 @@ This project is a machine learning application that predicts negative sentiment 
 - [Model](#model)
 - [Evaluation](#evaluation)
 
-## Usage  
-
-
-import pandas as pd  
-
 
 ## Overview
 Negative Sentiment Prediction is designed to analyze text and identify if the sentiment is negative. This can be useful for applications like social media monitoring, customer feedback analysis, and opinion mining.
@@ -30,38 +25,36 @@ The dataset used in this project contains textual data labeled with sentiment. T
 - Model training and evaluation
 - Prediction on new text data
 
-## Installation
-Clone the repository:
-   
+1. Clone the repository:
+
 git clone https://github.com/sindhujapagadala/Negative_Sentiment_Prediction.git
 
-Install required packages:
+## Installation
 
+2. Install required packages:
 pip install -r requirements.txt
 
-Usage
-1.Load the dataset and preprocess the text.
+## Usage
+Load the dataset and preprocess the text.
 
-2.Train the model:
-
+## Train the model:
 model.fit(train_dataset, validation_data=val_dataset, epochs=5)
 
-3.Predict sentiment for new text:
-
+## Predict sentiment for new text:
 predictions = model.predict(new_text_vectorized)
 
-Model:
-The project uses a Bidirectional LSTM neural network with dense layers. The model architecture includes:
-Embedding layer
-Bidirectional LSTM
-Dense layers with ReLU activation
-Output layer with sigmoid activation for multi-label classification
+## Model:
+##### The project uses a Bidirectional LSTM neural network with dense layers. The model architecture includes:  
+##### Embedding layer
+##### Bidirectional LSTM
+##### Dense layers with ReLU activation
+##### Output layer with sigmoid activation for multi-label classification
 
-Evaluation:
-The model is evaluated using metrics such as:
-Accuracy
-Precision
-Recall
-F1-score
+## Evaluation:
+##### The model is evaluated using metrics such as:
+##### Accuracy
+##### Precision
+##### Recall
+##### F1-score
 
 
