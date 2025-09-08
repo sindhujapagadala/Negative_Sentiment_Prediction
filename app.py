@@ -1,39 +1,39 @@
 import streamlit as st
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+import numpy as np
+import os
 
-# ------------------------------------------------
-# Load the trained model (includes TextVectorization)
-# ------------------------------------------------
 @st.cache_resource
 def load_toxicity_model():
-    model = load_model("toxicity.h5")
-    return model
+    # Make sure the model file exists
+    model_path = "toxicity.h5"
+    
+    if os.path.exists(model_path):
+        model = load_model(model_path)
+        return model
+    else:
+        st.error(f"❌ Model file not found at {model_path}")
+        return None
 
 model = load_toxicity_model()
 
-# ------------------------------------------------
-# Streamlit UI
-# ------------------------------------------------
-st.set_page_config(page_title="Negative Sentiment Detector", page_icon="😠", layout="centered")
+if model is not None:
+    st.title("😠 Negative Sentiment Prediction")
+    user_input = st.text_area("✍️ Type your text here:", placeholder="I really dislike this product...")
 
-st.title("😠 Negative Sentiment Prediction")
-st.write("Enter a sentence to check if it expresses **negative sentiment**.")
-
-# Input box
-user_input = st.text_area("✍️ Type your text here:", placeholder="I really dislike this product...")
-
-# Predict button
-if st.button("Predict Sentiment"):
-    if user_input.strip() == "":
-        st.warning("⚠️ Please enter some text before predicting.")
-    else:
-        # Preprocess and predict
-        prediction = model.predict([user_input])[0][0]
-
-        # Show result
-        st.subheader("🔮 Prediction Result")
-        if prediction > 0.5:
-            st.error(f"Negative Sentiment Detected 😡 (Confidence: {prediction:.2f})")
+    if st.button("🔮 Predict Sentiment"):
+        if user_input.strip() == "":
+            st.warning("⚠️ Please enter some text before predicting.")
         else:
-            st.success(f"Not Negative 🙂 (Confidence: {1 - prediction:.2f})")
+            with st.spinner("Analyzing sentiment..."):
+                prediction = model.predict([user_input])[0][0]
+            
+            confidence = float(prediction if prediction > 0.5 else 1 - prediction)
+
+            if prediction > 0.5:
+                st.markdown(f"😡 Negative Sentiment Detected (Confidence: {confidence:.2f})")
+            else:
+                st.markdown(f"🙂 Not Negative (Confidence: {confidence:.2f})")
+else:
+    st.stop()  # Stop execution if model failed to load
